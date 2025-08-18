@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Page</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Payment Page Theme (matches site colors) */
+body {
+  background-color: var(--extra-light);
+  color: var(--text-dark);
+  font-family: "Poppins", sans-serif;
+}
+
+.payment__container {
+  background-color: var(--white);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.payment__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment__form input,
+.payment__form select {
+  padding: 0.8rem;
+  border: 1px solid var(--text-light);
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--extra-light);
+  color: var(--text-dark);
+}
+
+.payment__form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.payment__form label {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.payment__amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.payment__form .btn {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.payment__form .btn:hover {
+  background-color: var(--primary-color);
+}
+</style>
+</head>
+<body>
+
+<section class="section__container payment__container">
+  <h2 class="section__header">Payment</h2>
+  <p class="payment__amount">
+    Room: <strong id="roomDisplay"></strong><br>
+    Nights: <strong id="nightsDisplay"></strong><br>
+    Total Amount: RM <span id="amount"></span>
+  </p>
+  
+  <!-- Redirects to thankyou.html after submission -->
+  <form class="payment__form" method="POST" action="thankyou.html">
+    <!-- Guest Info -->
+    <div class="input__group">
+      <label>Full Name:</label>
+      <input type="text" name="full_name" required>
+    </div>
+
+    <div class="input__group">
+      <label>Phone Number:</label>
+      <input type="tel" name="phone_number" required>
+    </div>
+
+    <div class="input__group">
+      <label>IC Number:</label>
+      <input type="text" name="ic_number" required>
+    </div>
+
+    <div class="input__group">
+      <label>Arrival Date:</label>
+      <input type="date" name="arrival_date" required>
+    </div>
+
+    <div class="input__group">
+      <label>Departure Date:</label>
+      <input type="date" name="departure_date" required>
+    </div>
+
+    <div class="input__group">
+      <label>Number of Guests:</label>
+      <input type="number" name="guests" min="1" required>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="input__group">
+      <label>Card Number:</label>
+      <input type="text" name="card_number" placeholder="1234 5678 9012 3456" required>
+    </div>
+
+    <div class="input__group">
+      <label>EXP Date:</label>
+      <input type="text" name="exp_date" placeholder="MM/YY" required>
+    </div>
+
+    <div class="input__group">
+      <label>Security Code:</label>
+      <input type="text" name="security_code" placeholder="123" required>
+    </div>
+
+    <!-- Hidden fields for booking details -->
+    <input type="hidden" name="total_amount" id="total_amount">
+    <input type="hidden" name="room" id="room">
+    <input type="hidden" name="nights" id="nights">
+    <input type="hidden" name="rooms" id="rooms">
+
+    <button type="submit" class="btn">Pay Now</button>
+  </form>
+</section>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const total = params.get("total");
+  const room = params.get("room");
+  const nights = params.get("nights");
+  const rooms = params.get("rooms"); 
+
+  document.getElementById("amount").textContent = total;
+  document.getElementById("roomDisplay").textContent = `${room} (${rooms} room(s))`;
+  document.getElementById("nightsDisplay").textContent = `${nights} night(s)`;
+
+  document.getElementById("total_amount").value = total;
+  document.getElementById("room").value = room;
+  document.getElementById("nights").value = nights;
+  document.getElementById("rooms").value = rooms;
+</script>
+
+</body>
+</html>
